@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form validation 2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Registration Form</h2>
+        </div>
+        <form action="" class="form" id="form" onsubmit="return validateform()">
+            <div class="form-control">
+                <label for="">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" autocomplete="off">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error Msg</small>
+            </div>
+            
+            <div class="form-control">
+                <label for="">Email</label>
+                <input type="Email" id="email" placeholder="Enter your Email" autocomplete="off">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error Msg</small>
+            </div>
+            <div class="form-control">
+                <label for="">Phone number</label>
+                <input type="number" id="phonenumber" placeholder="Enter your phone number">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error Msg</small>
+            </div>
+            <div class="form-control">
+                <label for="">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error Msg</small>
+            </div>
+            <div class="form-control">
+                <label for="">Confirm Password</label>
+                <input type="password" id="cpassword" placeholder="Enter your password">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error Msg</small>
+            </div>
+            <input type="submit" id="submit">
+        </form>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            const form = document.getElementById("form");
+            const username = document.getElementById("username");
+            const email = document.getElementById("email");
+            const phonenumber = document.getElementById("phonenumber");
+            const password = document.getElementById("password");
+            const cpassword = document.getElementById("cpassword");
+
+            form.addEventListener('submit',function(e){
+                e.preventDefault();
+                validateform();
+            });
+
+
+            function validateform(){
+                // username
+                if(username.value.trim()==""){
+                    setErrorfor(username,"username is blank");
+                }
+                else{
+                    setSuccessfor(username);
+                }
+                // email
+                if(email.value.trim()==""){
+                    setErrorfor(email,"email is blank");
+                }
+                else{
+                    setSuccessfor(email);
+                }
+                // phone number
+                if(phonenumber.value.trim()==""){
+                    setErrorfor(phonenumber,"phonenumber is blank");
+                }
+                else if(phonenumber.value.trim().length!=10){
+                    setErrorfor(phonenumber,"phone number should be min 10 digits");
+                }
+                else{
+                    setSuccessfor(phonenumber);
+                }
+                // password
+                if(password.value.trim()==""){
+                    setErrorfor(password,"password is blank");
+                }
+                else if(password.value.trim().length<3){
+                    setErrorfor(password,"password should min 3 chars")
+                }
+                else{
+                    setSuccessfor(password);
+                }
+                // confirm password
+                if(cpassword.value.trim()==""){
+                    setErrorfor(cpassword,"password is blank");
+                }
+                else if(cpassword.value.trim()!=password.value.trim()){
+                    setErrorfor(cpassword,"password doesnot matches");
+                }
+                else{
+                    setSuccessfor(cpassword);
+                }
+                successMsg();     
+            }
+
+            function successMsg(){
+                let formcon = document.getElementsByClassName("form-control");
+                let count = formcon.length-1;
+                for(i=0;i<formcon.length;i++){
+                    if(formcon[i].className=="form-control success"){
+                        srate = 0 + i;
+                        senddata(srate,count);
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }
+
+            function senddata(srate,count){
+                if(srate==count){
+                    alert("Are you sure want to submit");
+                    swal("Welcome", "Registration is successful!", "success");
+                }
+            }
+            function setErrorfor(input,message){
+                    const formcontrol = input.parentElement;
+                    const small = formcontrol.querySelector('small');
+                    small.innerText = message;
+                    formcontrol.className = 'form-control error';
+                }
+
+                function setSuccessfor(input){
+                    const formcontrol = input.parentElement;
+                    formcontrol.className = 'form-control success'
+                }
+        </script>
+    </div>
+</body>
+</html>
